@@ -1,5 +1,5 @@
 body {
-    background-color: #F3E2D4; /* #CDB4DB #6A4C93 #A06CCF B784CC*/
+    background-color: #F3E2D4; /* #F3E2D4 #C5B0CD #415E72 #17313E */
     font-family: 'Nunito', sans-serif;
     text-align: center;
     margin: 0px;
@@ -97,17 +97,17 @@ body {
 
 
 .XLlinkButton {
-    padding: 4rem 4rem;
+    padding: 3rem 3rem;
     cursor: pointer;
     background-color: #C5B0CD;
-    border-radius: 10px;
+    border-radius: 1rem;
     margin: 1rem;
     margin-bottom: 5rem;
     border: 2px solid #B09CB8;
     position: relative;
     transition: transform 0.3s ease;
     color: #F3E2D4;
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 /*Hjælp fra AI til hover effect*/
@@ -115,6 +115,7 @@ body {
     transform: scale(1.1);
     z-index: 10;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    font-family: 'Nunito', sans-serif;
 }
 
 
@@ -125,6 +126,7 @@ body {
     color: #F3E2D4;
     padding: 0.5rem 1rem;
     cursor: pointer;
+    font-family: 'Nunito', sans-serif;
 }
 
 

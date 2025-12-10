@@ -21,6 +21,12 @@ document.querySelectorAll(".infoPage3").forEach(button => {
     });
 });
 
+document.querySelectorAll(".infoPage4").forEach(button => {
+    button.addEventListener("click", function () {
+        window.location.href = "infoPage4.html";
+    });
+});
+
 /* Fået hjælp af AI til carousel */
 const messages = document.querySelectorAll('.messageCarousel p');
 let current = 0;
