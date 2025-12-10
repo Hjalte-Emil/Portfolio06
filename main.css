@@ -1,6 +1,6 @@
 body {
     background-color: #F3E2D4; /* #CDB4DB #6A4C93 #A06CCF B784CC*/
-    font-family:'Nunito', sans-serif;
+    font-family: 'Nunito', sans-serif;
     text-align: center;
     margin: 0px;
 
@@ -8,10 +8,12 @@ body {
     font-style: normal;
     color: #17313E;
 }
+
 .LogoIMG {
     width: 6rem;
-    cursor:pointer;
+    cursor: pointer;
 }
+
 .links {
     list-style-type: none;
     display: flex;
@@ -72,13 +74,25 @@ body {
 }
 
 @keyframes slideOutRight {
-    from { transform: translateX(0); opacity: 1; }
-    to   { transform: translateX(100%); opacity: 0; }
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
 }
 
 @keyframes slideInLeft {
-    from { transform: translateX(-100%); opacity: 0; }
-    to   { transform: translateX(0); opacity: 1; }
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 
@@ -100,7 +114,7 @@ body {
 .XLlinkButton:hover {
     transform: scale(1.1);
     z-index: 10;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 
@@ -137,6 +151,7 @@ footer {
     color: #F3E2D4;
     background-color: #17313E;
     gap: 2rem;
+    text-align: left;
 }
 
 .chart-datavisualisering {
@@ -159,6 +174,7 @@ footer {
 }
 
 .indhold-venstre {
+    text-align: left;
     line-height: 1.5;
 }
 
