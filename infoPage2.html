@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <link rel="stylesheet" href="main.css"/>
+    <title>Flere Kvinder i IT - Lønudvikling</title>
+
+    <!-- FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+          rel="stylesheet">
+
+    <!-- chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+<!------ MENU & NAVIGATION ------>
+<section class="menu">
+    <img class="LogoIMG" src="Logo%20design%20for%20a%20ca2.png" alt="Logo"> <!-- place holder logo -->
+    <ul class="links">
+        <li>
+            <button type="button" class="menuButton infoPage1">Lønpotentiale</button>
+        </li>
+        <li>
+            <button type="button" class="menuButton infoPage2">Lønudviklingen</button>
+        </li>
+        <li>
+            <button type="button" class="menuButton infoPage3">Kom godt fra start</button>
+        </li>
+    </ul>
+</section>
+
+<main>
+
+    <!------ CHART SEKTION ------>
+    <section class="chart-sektion">
+        <div class="chart-datavisualisering">
+            <canvas id="chart2"></canvas>
+        </div>
+
+        <div class="chart-tekst">
+            <h1>Lønudviklingen for kvinder i IT</h1>
+            <p>
+                Tallene viser, at ...
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias quas qui ratione velit. Ducimus
+                eligendi excepturi, incidunt officiis quo sapiente soluta vero? A dignissimos dolores quas sequi tempore
+                temporibus voluptas.
+            </p>
+        </div>
+    </section>
+
+
+    <!------ MERE TEKST + FEATURE CARDS ------>
+    <section class="indhold-sektion">
+
+        <!-- MERE TEKST -->
+        <div class="indhold-venstre">
+            <h2>(Mere viden om udviklingen)</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, amet aspernatur blanditiis, consectetur
+                dolorem, dolores doloribus dolorum eaque earum exercitationem ipsam ipsum libero obcaecati quaerat
+                quidem repellendus repudiandae saepe sed.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam aperiam dignissimos, distinctio est
+                expedita id illo illum, itaque laboriosam minus nihil, nulla repellat tempora tenetur voluptate? Aliquam
+                animi cumque reiciendis.
+            </p>
+        </div>
+
+        <!-- FEATURE CARDS -->
+        <div class="indhold-højre">
+
+            <section class="features">
+
+                <!-- card 1 -->
+                <article class="feature-card card1">
+                    <h3>Sammenlign løn mellem forskellige brancher</h3>
+                    <img src="education-svgrepo-com.svg" alt="Uddannelse ikon" class="feature-icon">
+                    <a href="#" class="btn">Se løn</a>
+                </article>
+
+                <!-- card 3 -->
+                <article class="feature-card card3">
+                    <h3>Se kønsfordelingen på forskellige IT-uddannelser</h3>
+                    <img src="person-svgrepo-com.svg" alt="Kønsfordeling ikon" class="feature-icon">
+                    <a href="#" class="btn">Se kønsfordeling</a>
+                </article>
+
+            </section>
+
+        </div>
+    </section>
+
+    <!------ FOOTER !? ------>
+    <footer>
+        <p>Kvinder i IT - Projekt</p>
+    </footer>
+
+
+
+</main>
+<script src="main.js"></script>
+<script src="charts.js"></script>
+</body>
+</html>
