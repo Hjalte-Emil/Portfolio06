@@ -25,6 +25,7 @@ body {
     height: 90%;
 
     border-radius: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     object-fit: cover;
     display: block;
 }
@@ -35,13 +36,14 @@ body {
     align-items: center;
 }
 
-#bottom-filler{
+#bottom-filler {
     text-align: center;
     font-size: 5rem;
     border-top: 5px solid rgba(27, 12, 67, 0.81);
     width: 50%;
     margin: 2rem auto;
 }
+
 /* Dette til forside-billede (END) */
 
 .LogoIMG {
@@ -61,7 +63,7 @@ body {
     align-items: center;
     background-color: #B09CB8;
     padding: 10px;
-    color: #F3E2D4;
+    color: #f6eae1;
 }
 
 .mainMessage {
@@ -79,7 +81,7 @@ body {
     height: auto;
     text-align: center;
     font-size: 1.5rem;
-    color: #C5B0CD;
+    color: #17313E;
     margin: 5rem 0;
     min-height: 100px;
 }
@@ -141,12 +143,11 @@ body {
     border: 2px solid #B09CB8;
     position: relative;
     transition: transform 0.3s ease;
-    color: #F3E2D4;
+    color: #17313E;
     font-size: 1.3rem;
     font-family: 'Nunito', sans-serif;
     will-change: transform;
 }
-
 
 
 /*Hjælp fra AI til hover effect*/
@@ -155,6 +156,7 @@ body {
     z-index: 10;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     font-family: 'Nunito', sans-serif;
+    font-weight: bold;
 }
 
 
@@ -166,6 +168,7 @@ body {
     padding: 0.5rem 1rem;
     cursor: pointer;
     font-family: 'Nunito', sans-serif;
+    font-weight: bold;
 }
 
 
