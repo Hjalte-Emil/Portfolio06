@@ -1,0 +1,297 @@
+body {
+    background-color: #F3E2D4; /* #F3E2D4 #C5B0CD #415E72 #17313E */
+    font-family: 'Nunito', sans-serif;
+    text-align: center;
+    margin: 0px;
+
+    font-optical-sizing: auto;
+    font-style: normal;
+    color: #17313E;
+}
+
+/* Dette til forside-billede (START) */
+#split-left-right {
+    display: flex;
+}
+
+#picture-front-leftside,
+#right-side {
+    width: 50%;
+}
+
+#picture-front-leftside img {
+    z-index: 999;
+    width: 90%;
+    height: 90%;
+
+    border-radius: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    object-fit: cover;
+    display: block;
+}
+
+#picture-front-leftside {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#bottom-filler {
+    text-align: center;
+    font-size: 5rem;
+    border-top: 5px solid rgba(27, 12, 67, 0.81);
+    width: 50%;
+    margin: 2rem auto;
+}
+/* Dette til forside-billede (END) */
+
+.LogoIMG {
+    width: 6rem;
+    cursor: pointer;
+}
+
+.links {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    gap: 5rem;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    background-color: #B09CB8;
+    padding: 10px;
+    color: #f6eae1;
+}
+
+.mainMessage {
+    color: #415E72;
+    text-shadow: 1px 1px #17313E;
+    font-size: xx-large;
+    margin-top: 5rem;
+}
+
+/* Fået hjælp af AI til carousel */
+
+.messageCarousel {
+    position: relative;
+    width: 100%;
+    height: auto;
+    text-align: center;
+    font-size: 1.5rem;
+    color: #17313E;
+    margin: 5rem 0;
+    min-height: 100px;
+}
+
+.messageCarousel p {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    cursor: default;
+}
+
+
+.messageCarousel p.active {
+    opacity: 1;
+}
+
+
+.slide-out-right {
+    animation: slideOutRight 1s forwards;
+}
+
+
+.slide-in-left {
+    animation: slideInLeft 1s forwards;
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+
+.XLlinkButton {
+    display: inline-block;
+    padding: 3rem 3rem;
+    cursor: pointer;
+    background-color: #C5B0CD;
+    border-radius: 1rem;
+    margin: 2rem;
+    border: 2px solid #B09CB8;
+    position: relative;
+    transition: transform 0.3s ease;
+    color: #17313E;
+    font-size: 1.3rem;
+    font-family: 'Nunito', sans-serif;
+    will-change: transform;
+}
+
+
+/*Hjælp fra AI til hover effect*/
+.XLlinkButton:hover {
+    transform: scale(1.1);
+    z-index: 10;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    font-family: 'Nunito', sans-serif;
+    font-weight: bold;
+}
+
+
+.menuButton {
+    font-size: 1rem;
+    background-color: transparent;
+    border: none;
+    color: #F3E2D4;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: bold;
+}
+
+
+.menuButton:hover {
+    background-color: #4B2E5D;
+    color: #F3E2D4;
+    border-color: #4B2E5D;
+    border-radius: 15px;
+}
+
+footer {
+    background-color: #B09CB8;
+    color: #F3E2D4;
+    text-align: center;
+    padding: 1rem;
+}
+
+
+/* ------ CHART SEKTION ------ */
+.chart-sektion {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 3rem 2rem;
+    color: #F3E2D4;
+    background-color: #17313E;
+    gap: 2rem;
+    text-align: left;
+}
+
+.chart-datavisualisering {
+    background: #e4dee8;
+    padding: 1rem;
+    border-radius: 10px;
+    height: auto;
+    min-height: 250px; /* Størrelse på grafens areal */
+    max-height: 250px;
+}
+
+.chart-tekst p {
+    line-height: 1.5;
+}
+
+
+/* ------ MERE VIDEN + FEATURE CARDS ------ */
+.indhold-sektion {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 2rem;
+    gap: 3rem;
+}
+
+.indhold-venstre {
+    text-align: left;
+    line-height: 1.5;
+}
+
+.features {
+    display: flex;
+    flex-wrap: wrap; /* kortene bliver displayed side by side på store skærme */
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.feature-card {
+    color: #09161c;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.8rem;
+    max-width: 250px;
+    width: 100%;
+    transition: 0.2s ease;
+}
+
+.feature-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 0.5rem;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card .btn {
+    background: #F3E2D4;
+    border: solid #17313E;
+    text-decoration: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #17313E;
+    transition: 0.2s ease;
+}
+
+.feature-card .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card1 {
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+}
+
+.card2 {
+    background: linear-gradient(135deg, #6f42c1, #d491e8);
+}
+
+.card3 {
+    background: linear-gradient(135deg, #0f766e, #34d399);
+}
+
+
+
+
+
+
+
+
+
+
