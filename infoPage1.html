@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <link rel="stylesheet" href="main.css"/>
+    <title>Flere Kvinder i IT - Sammenlign løn</title>
+
+    <!-- FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+          rel="stylesheet">
+
+    <!-- chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+</head>
+
+<body>
+
+<!------ MENU & NAVIGATION ------>
+<section class="menu">
+    <img class="LogoIMG" src="Logo%20design%20for%20a%20ca2.png" alt="Logo"> <!-- place holder logo -->
+    <ul class="links">
+        <li>
+            <button type="button" class="menuButton infoPage1">Lønpotentiale</button>
+        </li>
+        <li>
+            <button type="button" class="menuButton infoPage2">Lønudviklingen</button>
+        </li>
+
+        <li>
+            <button type="button" class="menuButton infoPage3">Kønsfordeling</button>
+        </li>
+        <li>
+            <button type="button" class="menuButton infoPage4">Kom godt fra start</button>
+        </li>
+    </ul>
+</section>
+
+<main>
+
+    <!------ CHART SEKTION ------>
+    <section class="chart-sektion">
+        <div class="chart-datavisualisering">
+            <canvas id="chart1"></canvas>
+        </div>
+
+        <div class="chart-tekst">
+            <h1>Kvinders lønpotentiale varierer markant mellem brancher</h1>
+            <p>
+                Tallene tager ikke fejl: IT-uddannelser fører generelt til en højere løn end mange andre uddannelser. Kvinder med en IT-uddannelse tjener i gennemsnit <strong> 10.000 kr. </strong> mere end i andre brancher. Alligevel er kvinder stadig underrepræsenterede i IT – og det betyder ikke bare, at man går glip af bedre løn og stærke karrieremuligheder, men også at færre kvinder er med til at forme den teknologi, der skaber vores fremtid.
+
+            </p>
+            <p>
+                Ved at vælge en IT-uddannelse, vil du blive en del af et fagligt stærkt fællesskab,
+                hvor kompetencer belønnes –
+                og hvor du kan være med til at skabe fremtiden.
+            </p>
+        </div>
+    </section>
+
+
+    <!------ MERE TEKST + FEATURE CARDS ------>
+    <section class="indhold-sektion">
+
+        <!-- MERE TEKST -->
+        <div class="indhold-venstre">
+            <h2>Ønsker du mere viden?</h2>
+            <p>
+                - Vil du dykke dybere ned i, hvordan lønnen for IT-uddannede adskiller sig fra lønnen i andre brancher?
+                Klik på knappen for at se tallene og få et tydeligere billede af forskellene.
+            </p>
+
+            <p>
+                - Se, hvordan kvinders løn i IT har udviklet sig og hvordan den står i forhold til andre brancher.
+                Tryk på den lilla knap for at udforske lønudviklingen.
+
+            </p>
+
+            <p>
+                - Er du nysgerrig på, hvordan kønsfordelingen ser ud på forskellige IT-uddannelser?
+                Klik på den grønne knap og få et indblik i, hvem der vælger IT-vejen og hvordan fordelingen har ændret sig.
+
+            </p>
+        </div>
+
+        <!-- FEATURE CARDS -->
+        <div class="indhold-højre">
+
+            <section class="features">
+
+                <!-- card 2 -->
+                <article class="feature-card card2">
+                    <h3>Se hvordan kvinders løn i IT udvikler sig over tid</h3>
+                    <img src="money-svgrepo-com.svg" alt="Lønudvikling ikon" class="feature-icon">
+                    <button type="button" class="infoPage2 btn">Se lønudvikling</button>
+                </article>
+
+                <!-- card 3 -->
+                <article class="feature-card card3">
+                    <h3>Se kønsfordelingen på forskellige IT-uddannelser</h3>
+                    <img src="person-svgrepo-com.svg" alt="Kønsfordeling ikon" class="feature-icon">
+                    <button type="button" class="infoPage3 btn">Se kønsfordeling</button>
+                </article>
+
+            </section>
+
+        </div>
+    </section>
+
+    <!------ FOOTER !? ------>
+    <footer>
+        <p>Kvinder i IT - Projekt</p>
+    </footer>
+
+</main>
+<script src="main.js"></script>
+<script src="charts.js"></script>
+</body>
+</html>
