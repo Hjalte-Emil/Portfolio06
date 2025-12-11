@@ -43,7 +43,6 @@ body {
     width: 50%;
     margin: 2rem auto;
 }
-
 /* Dette til forside-billede (END) */
 
 .LogoIMG {
@@ -199,9 +198,12 @@ footer {
 }
 
 .chart-datavisualisering {
-    background: #C5B0CD;
+    background: #e4dee8;
     padding: 1rem;
     border-radius: 10px;
+    height: auto;
+    min-height: 250px; /* Størrelse på grafens areal */
+    max-height: 250px;
 }
 
 .chart-tekst p {
