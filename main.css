@@ -197,13 +197,22 @@ footer {
     text-align: left;
 }
 
-.chart-datavisualisering {
+.chart-datavisualisering1 {
     background: #e4dee8;
     padding: 1rem;
     border-radius: 10px;
     height: auto;
     min-height: 250px; /* Størrelse på grafens areal */
     max-height: 250px;
+}
+
+.chart-datavisualisering2 {
+    background: #e4dee8;
+    padding: 1rem;
+    border-radius: 10px;
+    height: auto;
+    min-height: 500px
+
 }
 
 .chart-tekst p {
