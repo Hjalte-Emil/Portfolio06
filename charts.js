@@ -106,3 +106,94 @@ new Chart(ctx, {
 
 
 //GRAF 2 (Lønudviklingen - InfoPage2 HTML)
+const ctx2 = document.querySelector('#chart2');
+const labels2 = [
+    'Hoteller & restauranter',
+    'Sundhed & socialvæsen',
+    'Handel',
+    'Undervisning',
+    'Kultur & fritd',
+    'Information & kommunikation'
+];
+
+const monthlySalaryAll2024 = [39772, 42769, 45905, 49831, 49933, 56141];
+const backgroundColors2 = [
+    /*'rgba(111,66,193, 0.7)'*/
+    'rgba(162,200,196,0.7)',
+    'rgba(130,188,181,0.7)',
+    'rgba(88,166,159,0.7)',
+    'rgba(42,136,127,0.7)',
+    'rgba(15,118,110, 0.7)',
+    'rgba(111,66,193, 0.7)'
+];
+
+new Chart(ctx2, {
+    type: 'bar',
+    data: {
+        labels: labels2,
+        datasets: [{
+            label: 'Månedsløn',
+            data: monthlySalaryAll2024,
+            backgroundColor: backgroundColors2,
+            borderWidth: 0,
+            borderRadius: 4, // blødhed af kanter på søjler
+            //barThickness: 80, // tykkelsen på søjler
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+            //padding: {right: 60} // reserverer 60px til teksten inde i Canvas, så teksten ikke bliver clipped
+        },
+        scales: {
+            y: {
+                grid: { display: false },
+                ticks: { display: true,
+                    stepSize: 5000 /*interval på 5000*/,
+                    callback: function(value) {
+                        if (value === 0) {
+                            return "kr."
+                        }
+                        return value.toLocaleString();
+                    }}
+            },
+            x: {
+                beginAtZero: true,
+                //max: 60000, // x-akse slutter på 60.000
+                grid: { display: false },
+                ticks: { display: true,
+                    color: '#17313E',
+                    font: {
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    maxRotation: 10,
+                    minRotation: 0,
+                    padding: 4,
+                    // callbackfunktion splitter lange navne ved mellemrum
+                    callback: function(value, index) {
+                        const label = this.getLabelForValue(index);
+                        return label.split(" ");
+                    }},
+
+            }
+        },
+        plugins: {
+            legend: { display: false },
+            tooltip: { enabled: true },
+            datalabels: {
+                anchor: 'end',
+                align: 'end',
+                color: '#000',
+                font: { weight: 'bold', size: 20 },
+
+                /// Formaterer labels fra fx. 40000 til 40.000 kr.
+                formatter: function(value, context) {
+                    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") +" kr.";
+                }}
+        }
+    },
+    plugins: [ChartDataLabels]
+});
+
