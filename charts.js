@@ -8,7 +8,6 @@ const labels = [
 const monthlySalary2024 = [56141, 45642];
 const backgroundColors = [
     'rgba(111,66,193, 0.7)',
-
     'rgba(15,118,110, 0.7)'
 ];
 
@@ -65,7 +64,7 @@ new Chart(ctx, {
         responsive: true,
         maintainAspectRatio: false,
         layout: {
-            //padding: {right: 60} // reserverer 60px til teksten inde i Canvas, så teksten ikke bliver clipped
+            padding: {right: 60} // reserverer 60px til teksten inde i Canvas, så teksten ikke bliver clipped
         },
         scales: {
             y: {
@@ -74,9 +73,17 @@ new Chart(ctx, {
             },
             x: {
                 beginAtZero: true,
-                //max: 60000, // x-akse slutter på 60.000
+                max: 60000, // x-akse slutter på 60.000
                 grid: { display: false },
-                ticks: { stepSize: 5000 } // interval på 5000
+                ticks: {
+                    stepSize: 5000 /*interval på 5000*/,
+                    callback: function(value) {
+                        if (value === 0) {
+                            return "kr."
+                        }
+                        return value.toLocaleString();
+                    }
+                }
             }
         },
         plugins: {
@@ -88,11 +95,14 @@ new Chart(ctx, {
                 color: '#000',
                 font: { weight: 'bold', size: 20 },
 
-                /// Formaterer labels fra fx. 40000 til 40.000
+                /// Formaterer labels fra fx. 40000 til 40.000 kr.
                 formatter: function(value, context) {
-                    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            }}
+                    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") +" kr.";
+                }}
         }
     },
     plugins: [ChartDataLabels, insideCategoryLabels]
 });
+
+
+//GRAF 2 (Lønudviklingen - InfoPage2 HTML)
