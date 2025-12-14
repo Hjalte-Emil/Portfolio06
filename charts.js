@@ -45,11 +45,11 @@ const insideCategoryLabels = {
     }
 };
 ///
-
+if (ctx){
 new Chart(ctx, {
     type: 'bar', // (Horizontal) laver horisontal i options.
     data: {
-        labels,
+        labels: labels,
         datasets: [{
             label: 'Månedsløn',
             data: monthlySalary2024,
@@ -103,9 +103,9 @@ new Chart(ctx, {
     },
     plugins: [ChartDataLabels, insideCategoryLabels]
 });
+}
 
-
-//GRAF 2 (Lønudviklingen - InfoPage2 HTML)
+//GRAF 2 (Lønpotentiale - InfoPage1 HTML)
 const ctx2 = document.querySelector('#chart2');
 const labels2 = [
     'Hoteller & restauranter',
@@ -127,6 +127,7 @@ const backgroundColors2 = [
     'rgba(111,66,193, 0.7)'
 ];
 
+if (ctx2){
 new Chart(ctx2, {
     type: 'bar',
     data: {
@@ -196,4 +197,164 @@ new Chart(ctx2, {
     },
     plugins: [ChartDataLabels]
 });
+}
 
+
+// GRAF 3 (Lønudviklingen - InfoPage2 HTML)
+const ctx3 = document.querySelector('#chart3');
+const years = [
+    2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024
+];
+const data = {
+    labels: years,
+    datasets: [
+        {
+            label: 'Information og kommunikation',
+            data: [
+                43416, 43941, 45259, 45212, 46017, 46727, 47840, 48449, 49728, 51246, 53571, 56141
+            ],
+            borderColor: 'rgba(111,66,193, 1)',
+            backgroundColor: 'rgba(111,66,193, 0.2)',
+            borderWidth: 4,
+            tension: 0,
+            pointRadius: 2,
+            pointHoverRadius: 30
+        },
+        {
+            label: 'Andre sektorer',
+            data: [
+                34905, 35362, 35750, 36413, 37335, 37999, 38890, 39850, 40621, 41721, 42977, 46362
+            ],
+            borderColor: 'rgba(15,118,110, 1)',
+            backgroundColor: 'rgba(15,118,110, 0.2)',
+            borderWidth: 4,
+            tension: 0,
+            pointRadius: 2,
+            pointHoverRadius: 30
+        }
+    ]
+};
+
+if (ctx3){
+new Chart(ctx3, {
+    type: 'line',
+    data: data,
+    options: {
+        responsive: true,
+        interaction: {
+            mode: 'index',
+            intersect: false
+        },
+        plugins: {
+            legend: {
+                position: 'top',
+                labels: {
+                    font: {
+                        size: 18, // bigger text
+                        weight: 'bold'
+                    },
+                    // tilføjer mellemrum mellem labels i toppen af grafen
+                    generateLabels: (chart) => {
+                        const datasets = chart.data.datasets;
+                        return datasets.map((dataset, i) => ({
+                            text: dataset.label + "      ",
+                            fillStyle: dataset.borderColor,
+                            hidden: !chart.isDatasetVisible(i),
+                            datasetIndex: i,
+                            // add extra horizontal spacing by modifying text
+                            textAlign: 'center',
+                            // optional: you could append some spaces or use boxWidth
+                            // text: dataset.label + '    ' // adds manual spacing
+                        }));
+                    }
+                }
+            },
+
+            // indstillinger til pop-up-boksen
+            tooltip: {
+                backgroundColor: 'rgba(23, 49, 62, 0.95)',
+                titleColor: '#ffffff',
+                bodyColor: '#ffffff',
+
+                borderColor: 'rgba(255, 255, 255, 0.15)',
+                borderWidth: 1,
+
+                cornerRadius: 12,
+                padding: 12,
+
+                titleFont: {
+                    size: 14,
+                    weight: 'bold'
+                },
+                bodyFont: {
+                    size: 13
+                },
+
+                displayColors: true,
+                boxPadding: 6,
+                titleAlign: 'center',
+
+                // formaterer "År" og "kr." ind i tooltippet
+                callbacks: {
+                    title: (tooltipItems) => {
+                        return `År ${tooltipItems[0].label}`;
+                    },
+                    label: (context) => {
+                        const value = context.parsed.y;
+                        return `${context.dataset.label}: ${value.toLocaleString()} kr.`;
+                    }
+                }
+            },
+            // viser den procentuelle stigning i lønnen hvert år over hvert punkt i grafen
+            datalabels: {
+                color: '#17313E',
+                anchor: 'end',
+                align: 'top',
+                font: {
+                    size: 14,
+                    weight: 'bold'
+                },
+                display: function(context) {
+                    const index = context.dataIndex;
+                    const totalPoints = context.chart.data.labels.length;
+
+                    // starter display fra index 1 (år 2014)
+                    return index > 0;
+                },
+                formatter: function(value, context) {
+                    const dataset = context.dataset.data;
+                    const index = context.dataIndex;
+
+                    // tom plads for index 0 (år 2013)
+                    if (index === 0) return '';
+
+                    const prevValue = dataset[index - 1];
+                    const increase = ((value - prevValue) / prevValue) * 100;
+
+                    // returnerer med 1 decimal.
+                    return increase.toFixed(1) + '%';
+                }
+
+            }
+        },
+        scales: {
+            y: {
+                ticks: {
+                    callback: function(value,index) {
+                        if (index === 0) {
+                            return "kr."
+                        }
+                        return value.toLocaleString();
+                    }
+                },
+                grid: {display: true}
+            },
+            x: {
+                grid: {display: false}
+            }
+        },
+
+    },
+    plugins: [ChartDataLabels]
+});
+}
