@@ -1,10 +1,13 @@
 //GRAF 1 (Lønpotentiale - InfoPage1 HTML)
+let chart1;
 const ctx = document.querySelector('#chart1');
 const labels = [
     'Information og kommunikation',
     'Andre sektorer'
 ];
 
+//const monthlySalary2024 = [56141, 45642];
+// fallback værdier
 const monthlySalary2024 = [56141, 45642];
 const backgroundColors = [
     'rgba(111,66,193, 0.7)',
@@ -45,8 +48,35 @@ const insideCategoryLabels = {
     }
 };
 ///
+// fetch til første søjle
+fetch('http://localhost:3000/2024/it')
+    .then(res => res.json())
+    .then(data => {
+        // opdaterer graf-indhold hvis json-propertien har en talværdi, og hvis grafen allerede eksisterer (med fallback værdier).
+        if (typeof data?.y2024 === 'number' && chart1) {
+            chart1.data.datasets[0].data[0] = data.y2024;
+            chart1.update();
+        }
+    })
+    .catch(() => {
+    });
+
+// fetch til anden søjle
+fetch('http://localhost:3000/2024/otherSectors')
+    .then(res => res.json())
+    .then(data => {
+        // opdaterer graf-indhold hvis json-propertien har en talværdi, og hvis grafen allerede eksisterer (med fallback værdier).
+        if (typeof data?.y2024 === 'number' && chart1) {
+            chart1.data.datasets[0].data[1] = data.y2024;
+            chart1.update();
+        }
+    })
+    .catch(() => {
+    });
+// Graferne i chart.js ændrer sig ikke dynamisk, hvis deres talværdier bliver ændret. Derfor er det nødvendigt med chart.update()
+
 if (ctx){
-new Chart(ctx, {
+chart1 = new Chart(ctx, {
     type: 'bar', // (Horizontal) laver horisontal i options.
     data: {
         labels: labels,
@@ -73,14 +103,17 @@ new Chart(ctx, {
             },
             x: {
                 beginAtZero: true,
-                max: 60000, // x-akse slutter på 60.000
+                //max: 60000, // x-akse slutter på 60.000
                 grid: { display: false },
                 ticks: {
                     stepSize: 5000 /*interval på 5000*/,
-                    callback: function(value) {
-                        if (value === 0) {
+
+                    // sætter "kr." på index 0 på x-aksen
+                    callback: function(value,index) {
+                        if (index === 0) {
                             return "kr."
                         }
+                        // .toLocaleString() formaterer values til DK-syntaks. Fx. 5000 --> 5.000 eller 25000 --> 25.000
                         return value.toLocaleString();
                     }
                 }
@@ -96,7 +129,7 @@ new Chart(ctx, {
                 font: { weight: 'bold', size: 20 },
 
                 /// Formaterer labels fra fx. 40000 til 40.000 kr.
-                formatter: function(value, context) {
+                formatter: function(value) {
                     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") +" kr.";
                 }}
         }
@@ -118,7 +151,6 @@ const labels2 = [
 
 const monthlySalaryAll2024 = [39772, 42769, 45905, 49831, 49933, 56141];
 const backgroundColors2 = [
-    /*'rgba(111,66,193, 0.7)'*/
     'rgba(162,200,196,0.7)',
     'rgba(130,188,181,0.7)',
     'rgba(88,166,159,0.7)',
@@ -151,9 +183,9 @@ new Chart(ctx2, {
             y: {
                 grid: { display: false },
                 ticks: { display: true,
-                    stepSize: 5000 /*interval på 5000*/,
-                    callback: function(value) {
-                        if (value === 0) {
+                    stepSize: 5000, // interval på 5000,
+                    callback: function(value, index) {
+                        if (index === 0) {
                             return "kr."
                         }
                         return value.toLocaleString();
@@ -169,7 +201,7 @@ new Chart(ctx2, {
                         size: 14,
                         weight: 'bold'
                     },
-                    maxRotation: 10,
+                    maxRotation: 90,
                     minRotation: 0,
                     padding: 4,
                     // callbackfunktion splitter lange navne ved mellemrum
@@ -190,7 +222,7 @@ new Chart(ctx2, {
                 font: { weight: 'bold', size: 20 },
 
                 /// Formaterer labels fra fx. 40000 til 40.000 kr.
-                formatter: function(value, context) {
+                formatter: function(value) {
                     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") +" kr.";
                 }}
         }
@@ -253,18 +285,16 @@ new Chart(ctx3, {
                         size: 18, // bigger text
                         weight: 'bold'
                     },
+                    /// AI til at lave custom labels, så mellemrum visuelt kan tilføjes
                     // tilføjer mellemrum mellem labels i toppen af grafen
                     generateLabels: (chart) => {
                         const datasets = chart.data.datasets;
                         return datasets.map((dataset, i) => ({
-                            text: dataset.label + "      ",
+                            text: dataset.label + "      ", // manuel spacing mellem labels her
                             fillStyle: dataset.borderColor,
                             hidden: !chart.isDatasetVisible(i),
                             datasetIndex: i,
-                            // add extra horizontal spacing by modifying text
                             textAlign: 'center',
-                            // optional: you could append some spaces or use boxWidth
-                            // text: dataset.label + '    ' // adds manual spacing
                         }));
                     }
                 }
@@ -273,8 +303,8 @@ new Chart(ctx3, {
             // indstillinger til pop-up-boksen
             tooltip: {
                 backgroundColor: 'rgba(23, 49, 62, 0.95)',
-                titleColor: '#ffffff',
-                bodyColor: '#ffffff',
+                titleColor: '#fff',
+                bodyColor: '#fff',
 
                 borderColor: 'rgba(255, 255, 255, 0.15)',
                 borderWidth: 1,
@@ -316,7 +346,6 @@ new Chart(ctx3, {
                 },
                 display: function(context) {
                     const index = context.dataIndex;
-                    const totalPoints = context.chart.data.labels.length;
 
                     // starter display fra index 1 (år 2014)
                     return index > 0;
@@ -328,6 +357,7 @@ new Chart(ctx3, {
                     // tom plads for index 0 (år 2013)
                     if (index === 0) return '';
 
+                    // udregner procent difference
                     const prevValue = dataset[index - 1];
                     const increase = ((value - prevValue) / prevValue) * 100;
 
