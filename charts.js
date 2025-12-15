@@ -1,14 +1,16 @@
 //GRAF 1 (Lønpotentiale - InfoPage1 HTML)
+let chart1;
 const ctx = document.querySelector('#chart1');
 const labels = [
     'Information og kommunikation',
     'Andre sektorer'
 ];
 
+//const monthlySalary2024 = [56141, 45642];
+// fallback værdier
 const monthlySalary2024 = [56141, 45642];
 const backgroundColors = [
     'rgba(111,66,193, 0.7)',
-
     'rgba(15,118,110, 0.7)'
 ];
 
@@ -46,11 +48,38 @@ const insideCategoryLabels = {
     }
 };
 ///
+// fetch til første søjle
+fetch('http://localhost:3000/2024/it')
+    .then(res => res.json())
+    .then(data => {
+        // opdaterer graf-indhold hvis json-propertien har en talværdi, og hvis grafen allerede eksisterer (med fallback værdier).
+        if (typeof data?.y2024 === 'number' && chart1) {
+            chart1.data.datasets[0].data[0] = data.y2024;
+            chart1.update();
+        }
+    })
+    .catch(() => {
+    });
 
-new Chart(ctx, {
+// fetch til anden søjle
+fetch('http://localhost:3000/2024/otherSectors')
+    .then(res => res.json())
+    .then(data => {
+        // opdaterer graf-indhold hvis json-propertien har en talværdi, og hvis grafen allerede eksisterer (med fallback værdier).
+        if (typeof data?.y2024 === 'number' && chart1) {
+            chart1.data.datasets[0].data[1] = data.y2024;
+            chart1.update();
+        }
+    })
+    .catch(() => {
+    });
+// Graferne i chart.js ændrer sig ikke dynamisk, hvis deres talværdier bliver ændret. Derfor er det nødvendigt med chart.update()
+
+if (ctx){
+chart1 = new Chart(ctx, {
     type: 'bar', // (Horizontal) laver horisontal i options.
     data: {
-        labels,
+        labels: labels,
         datasets: [{
             label: 'Månedsløn',
             data: monthlySalary2024,
@@ -65,7 +94,7 @@ new Chart(ctx, {
         responsive: true,
         maintainAspectRatio: false,
         layout: {
-            //padding: {right: 60} // reserverer 60px til teksten inde i Canvas, så teksten ikke bliver clipped
+            padding: {right: 60} // reserverer 60px til teksten inde i Canvas, så teksten ikke bliver clipped
         },
         scales: {
             y: {
@@ -76,7 +105,18 @@ new Chart(ctx, {
                 beginAtZero: true,
                 //max: 60000, // x-akse slutter på 60.000
                 grid: { display: false },
-                ticks: { stepSize: 5000 } // interval på 5000
+                ticks: {
+                    stepSize: 5000 /*interval på 5000*/,
+
+                    // sætter "kr." på index 0 på x-aksen
+                    callback: function(value,index) {
+                        if (index === 0) {
+                            return "kr."
+                        }
+                        // .toLocaleString() formaterer values til DK-syntaks. Fx. 5000 --> 5.000 eller 25000 --> 25.000
+                        return value.toLocaleString();
+                    }
+                }
             }
         },
         plugins: {
@@ -88,11 +128,263 @@ new Chart(ctx, {
                 color: '#000',
                 font: { weight: 'bold', size: 20 },
 
-                /// Formaterer labels fra fx. 40000 til 40.000
-                formatter: function(value, context) {
-                    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            }}
+                /// Formaterer labels fra fx. 40000 til 40.000 kr.
+                formatter: function(value) {
+                    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") +" kr.";
+                }}
         }
     },
     plugins: [ChartDataLabels, insideCategoryLabels]
 });
+}
+
+//GRAF 2 (Lønpotentiale - InfoPage1 HTML)
+const ctx2 = document.querySelector('#chart2');
+const labels2 = [
+    'Hoteller & restauranter',
+    'Sundhed & socialvæsen',
+    'Handel',
+    'Undervisning',
+    'Kultur & fritd',
+    'Information & kommunikation'
+];
+
+const monthlySalaryAll2024 = [39772, 42769, 45905, 49831, 49933, 56141];
+const backgroundColors2 = [
+    'rgba(162,200,196,0.7)',
+    'rgba(130,188,181,0.7)',
+    'rgba(88,166,159,0.7)',
+    'rgba(42,136,127,0.7)',
+    'rgba(15,118,110, 0.7)',
+    'rgba(111,66,193, 0.7)'
+];
+
+if (ctx2){
+new Chart(ctx2, {
+    type: 'bar',
+    data: {
+        labels: labels2,
+        datasets: [{
+            label: 'Månedsløn',
+            data: monthlySalaryAll2024,
+            backgroundColor: backgroundColors2,
+            borderWidth: 0,
+            borderRadius: 4, // blødhed af kanter på søjler
+            //barThickness: 80, // tykkelsen på søjler
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+            //padding: {right: 60} // reserverer 60px til teksten inde i Canvas, så teksten ikke bliver clipped
+        },
+        scales: {
+            y: {
+                grid: { display: false },
+                ticks: { display: true,
+                    stepSize: 5000, // interval på 5000,
+                    callback: function(value, index) {
+                        if (index === 0) {
+                            return "kr."
+                        }
+                        return value.toLocaleString();
+                    }}
+            },
+            x: {
+                beginAtZero: true,
+                //max: 60000, // x-akse slutter på 60.000
+                grid: { display: false },
+                ticks: { display: true,
+                    color: '#17313E',
+                    font: {
+                        size: 14,
+                        weight: 'bold'
+                    },
+                    maxRotation: 90,
+                    minRotation: 0,
+                    padding: 4,
+                    // callbackfunktion splitter lange navne ved mellemrum
+                    callback: function(value, index) {
+                        const label = this.getLabelForValue(index);
+                        return label.split(" ");
+                    }},
+
+            }
+        },
+        plugins: {
+            legend: { display: false },
+            tooltip: { enabled: true },
+            datalabels: {
+                anchor: 'end',
+                align: 'end',
+                color: '#000',
+                font: { weight: 'bold', size: 20 },
+
+                /// Formaterer labels fra fx. 40000 til 40.000 kr.
+                formatter: function(value) {
+                    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") +" kr.";
+                }}
+        }
+    },
+    plugins: [ChartDataLabels]
+});
+}
+
+
+// GRAF 3 (Lønudviklingen - InfoPage2 HTML)
+const ctx3 = document.querySelector('#chart3');
+const years = [
+    2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024
+];
+const data = {
+    labels: years,
+    datasets: [
+        {
+            label: 'Information og kommunikation',
+            data: [
+                43416, 43941, 45259, 45212, 46017, 46727, 47840, 48449, 49728, 51246, 53571, 56141
+            ],
+            borderColor: 'rgba(111,66,193, 1)',
+            backgroundColor: 'rgba(111,66,193, 0.2)',
+            borderWidth: 4,
+            tension: 0,
+            pointRadius: 2,
+            pointHoverRadius: 30
+        },
+        {
+            label: 'Andre sektorer',
+            data: [
+                34905, 35362, 35750, 36413, 37335, 37999, 38890, 39850, 40621, 41721, 42977, 46362
+            ],
+            borderColor: 'rgba(15,118,110, 1)',
+            backgroundColor: 'rgba(15,118,110, 0.2)',
+            borderWidth: 4,
+            tension: 0,
+            pointRadius: 2,
+            pointHoverRadius: 30
+        }
+    ]
+};
+
+if (ctx3){
+new Chart(ctx3, {
+    type: 'line',
+    data: data,
+    options: {
+        responsive: true,
+        interaction: {
+            mode: 'index',
+            intersect: false
+        },
+        plugins: {
+            legend: {
+                position: 'top',
+                labels: {
+                    font: {
+                        size: 18, // bigger text
+                        weight: 'bold'
+                    },
+                    /// AI til at lave custom labels, så mellemrum visuelt kan tilføjes
+                    // tilføjer mellemrum mellem labels i toppen af grafen
+                    generateLabels: (chart) => {
+                        const datasets = chart.data.datasets;
+                        return datasets.map((dataset, i) => ({
+                            text: dataset.label + "      ", // manuel spacing mellem labels her
+                            fillStyle: dataset.borderColor,
+                            hidden: !chart.isDatasetVisible(i),
+                            datasetIndex: i,
+                            textAlign: 'center',
+                        }));
+                    }
+                }
+            },
+
+            // indstillinger til pop-up-boksen
+            tooltip: {
+                backgroundColor: 'rgba(23, 49, 62, 0.95)',
+                titleColor: '#fff',
+                bodyColor: '#fff',
+
+                borderColor: 'rgba(255, 255, 255, 0.15)',
+                borderWidth: 1,
+
+                cornerRadius: 12,
+                padding: 12,
+
+                titleFont: {
+                    size: 14,
+                    weight: 'bold'
+                },
+                bodyFont: {
+                    size: 13
+                },
+
+                displayColors: true,
+                boxPadding: 6,
+                titleAlign: 'center',
+
+                // formaterer "År" og "kr." ind i tooltippet
+                callbacks: {
+                    title: (tooltipItems) => {
+                        return `År ${tooltipItems[0].label}`;
+                    },
+                    label: (context) => {
+                        const value = context.parsed.y;
+                        return `${context.dataset.label}: ${value.toLocaleString()} kr.`;
+                    }
+                }
+            },
+            // viser den procentuelle stigning i lønnen hvert år over hvert punkt i grafen
+            datalabels: {
+                color: '#17313E',
+                anchor: 'end',
+                align: 'top',
+                font: {
+                    size: 14,
+                    weight: 'bold'
+                },
+                display: function(context) {
+                    const index = context.dataIndex;
+
+                    // starter display fra index 1 (år 2014)
+                    return index > 0;
+                },
+                formatter: function(value, context) {
+                    const dataset = context.dataset.data;
+                    const index = context.dataIndex;
+
+                    // tom plads for index 0 (år 2013)
+                    if (index === 0) return '';
+
+                    // udregner procent difference
+                    const prevValue = dataset[index - 1];
+                    const increase = ((value - prevValue) / prevValue) * 100;
+
+                    // returnerer med 1 decimal.
+                    return increase.toFixed(1) + '%';
+                }
+
+            }
+        },
+        scales: {
+            y: {
+                ticks: {
+                    callback: function(value,index) {
+                        if (index === 0) {
+                            return "kr."
+                        }
+                        return value.toLocaleString();
+                    }
+                },
+                grid: {display: true}
+            },
+            x: {
+                grid: {display: false}
+            }
+        },
+
+    },
+    plugins: [ChartDataLabels]
+});
+}
