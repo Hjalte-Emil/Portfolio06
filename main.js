@@ -1,5 +1,5 @@
-document.querySelector(".LogoIMG").addEventListener("click", function (){
-    window.location.href="index.html"
+document.querySelector(".LogoIMG").addEventListener("click", function () {
+    window.location.href = "index.html"
 })
 
 // Note: Skifter side til andet html dokument
@@ -18,12 +18,6 @@ document.querySelectorAll(".infoPage2").forEach(button => {
 document.querySelectorAll(".infoPage3").forEach(button => {
     button.addEventListener("click", function () {
         window.location.href = "infoPage3.html";
-    });
-});
-
-document.querySelectorAll(".infoPage4").forEach(button => {
-    button.addEventListener("click", function () {
-        window.location.href = "infoPage4.html";
     });
 });
 
