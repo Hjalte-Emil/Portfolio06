@@ -139,6 +139,7 @@ chart1 = new Chart(ctx, {
 }
 
 //GRAF 2 (Lønpotentiale - InfoPage1 HTML)
+let chart2;
 const ctx2 = document.querySelector('#chart2');
 const labels2 = [
     'Hoteller & restauranter',
@@ -160,7 +161,7 @@ const backgroundColors2 = [
 ];
 
 if (ctx2){
-new Chart(ctx2, {
+chart2 = new Chart(ctx2, {
     type: 'bar',
     data: {
         labels: labels2,
@@ -233,6 +234,7 @@ new Chart(ctx2, {
 
 
 // GRAF 3 (Lønudviklingen - InfoPage2 HTML)
+let chart3;
 const ctx3 = document.querySelector('#chart3');
 const years = [
     2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024
@@ -268,7 +270,7 @@ const data = {
 };
 
 if (ctx3){
-new Chart(ctx3, {
+chart3 = new Chart(ctx3, {
     type: 'line',
     data: data,
     options: {
@@ -388,3 +390,158 @@ new Chart(ctx3, {
     plugins: [ChartDataLabels]
 });
 }
+
+
+let chart4;
+const sectorLabels = {
+    id: 'sectorLabels',
+    afterDatasetsDraw(chart, args, pluginOptions = {}) {
+        const { ctx } = chart;
+
+        if (!pluginOptions.itText || !pluginOptions.mediaText) return;
+
+        const metaBottom = chart.getDatasetMeta(0);
+        const metaTop    = chart.getDatasetMeta(1);
+
+        if (!metaBottom?.data?.length || !metaTop?.data?.length) return;
+
+        metaBottom.data.forEach((barBottom, index) => {
+            const barTop = metaTop.data[index];
+            if (!barTop) return;
+
+            const bottom = barBottom.base;
+            const top    = barTop.y;
+
+            const midY = (top + bottom) / 2;
+            const x = barBottom.x;
+
+            const text =
+                index === 0
+                    ? pluginOptions.itText
+                    : pluginOptions.mediaText;
+
+
+            if (typeof text !== 'string') return;
+
+            const lines = text.split('\n');
+            const lineHeight = 12;
+            const startY = midY - ((lines.length - 1) * lineHeight) / 2;
+
+            ctx.save();
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 10px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            lines.forEach((line, i) => {
+                ctx.fillText(line, x, startY + i * lineHeight);
+            });
+
+            ctx.restore();
+        });
+    }
+};
+
+Chart.register(sectorLabels);
+
+// Chart for query 2.
+async function loadChart2() {
+    const res = await fetch('http://localhost:3000/studie/uddannelse');
+    const rows = await res.json();
+
+    const itDegrees = [
+        'Datamatiker',
+        'Økonomi og it',
+        'PB i IT-arkitektur'
+    ];
+
+    const mediaDegrees = [
+        'Multimediedesign',
+        'Designteknolog',
+        'PB indenfor Design og business'
+    ];
+
+    const labels = ['Kønsfordeling på IT-uddannelser', 'Kønsfordeling på Medieuddannelser'];
+
+    // Summen af alt så jeg kan få listen af uddannelser samt køn.
+    function sumFor(degreeList, gender) {
+        return rows.reduce((sum, r) => {
+            const isDegree = degreeList.includes(r.INSTITUTIONSAKT_BETEGNELSE);
+            const isGender = r.Køn === gender;
+            return isDegree && isGender ? sum + r.Antal : sum;
+        }, 0);
+    }
+
+    // Her får jeg det reelle antal af studerende for hver uddannelse, så jeg kan konverter til procent.
+    const itWomen  = sumFor(itDegrees, 'Kvinde');
+    const itMen    = sumFor(itDegrees, 'Mand');
+    const medWomen = sumFor(mediaDegrees, 'Kvinde');
+    const medMen   = sumFor(mediaDegrees, 'Mand');
+
+    // Her ville jeg konvertere til procent per sektor, så hver bar giver 100%
+    const itTotal    = itWomen + itMen;
+    const mediaTotal = medWomen + medMen;
+
+    const womenData = [
+        itTotal    ? (itWomen  / itTotal)    * 100 : 0,  // IT - Få de rigtige procent frem for hver sektor & køn
+        mediaTotal ? (medWomen / mediaTotal) * 100 : 0   // Media - Få de rigtige procent frem for hver sektor & køn
+    ];
+
+    const menData = [
+        itTotal    ? (itMen  / itTotal)    * 100 : 0,    // IT - Samme her få de rigtige procent frem for hver sektor & køn
+        mediaTotal ? (medMen / mediaTotal) * 100 : 0     // Media - Samme her få de rigtige procent frem for hver sektor & køn
+    ];
+
+    const ctx4 = document.getElementById('chart4').getContext('2d');
+    if(ctx4){
+    chart4 = new Chart(ctx4, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: 'Kvinde',
+                    data: womenData,
+                    backgroundColor: '#d491e8'
+                },
+                {
+                    label: 'Mand',
+                    data: menData,
+                    backgroundColor: '#3b82f6'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            const label = context.dataset.label || '';
+                            const value = context.parsed.y;
+                            const rounded = Math.round(value);
+                            return `${label}: ${rounded}%`;
+                        }
+                    }
+                },
+                sectorLabels: {
+                    itText: itDegrees.join('\n'),
+                    mediaText: mediaDegrees.join('\n')
+                }
+            },
+            scales: {
+                x: { stacked: true},
+                y: {
+                    stacked: true,
+                    beginAtZero: true,
+                    max: 100,
+                    title: { display: true, text: 'Målt i procent' }
+                }
+            }
+        }
+    });
+}}
+document.addEventListener('DOMContentLoaded', () => {
+    loadChart2();
+});
+

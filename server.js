@@ -35,6 +35,29 @@ app.get('/2024/otherSectors',(req, res)=>{
 
 
 
+// Query 2 - Sammenligning af IT uddannelser.
+app.get('/studie/uddannelse', (req,res)=> {
+    const query2 = `SELECT INSTITUTIONSAKT_BETEGNELSE, Køn, COUNT(*) AS Antal
+                    FROM studie
+                    WHERE INSTITUTIONSAKT_BETEGNELSE IN (
+                                                         'Datamatiker',
+                                                         'Økonomi og it',
+                                                         'PB i IT-arkitektur',
+                                                         'Multimediedesign',
+                                                         'Designteknolog',
+                                                         'PB indenfor Design og business')
+                      AND Køn IN ('Kvinde', 'Mand')
+                    GROUP BY INSTITUTIONSAKT_BETEGNELSE, Køn;`;
+    connection.query(query2, (error, results) => {
+        if (error) {
+            res.status(500).send(error);
+            return
+        }
+        res.send(results);
+    });
+});
+
+
 
 
 app.listen(port, () =>{
