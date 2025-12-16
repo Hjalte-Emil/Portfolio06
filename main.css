@@ -296,6 +296,43 @@ footer {
 }
 
 
+@media (max-width: 600px) {
+
+    .menu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .links {
+        font-size: 1.2rem;
+        text-align: center;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    #picture-front-leftside {
+        display: none;
+    }
+
+    #split-left-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .XLlinkButton {
+        width: 19rem;
+    }
+
+    .chart-sektion {
+        display: flex;
+        flex-direction: column;
+    }
+
+}
+
 
 
 
